@@ -9,7 +9,6 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "helloworld" is now active!');
 
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
@@ -19,6 +18,10 @@ export function activate(context: vscode.ExtensionContext) {
 	// 	// Display a message box to the user
 	// 	vscode.window.showInformationMessage('Hello World from helloWorld!');
 	// });
+const workbenchConfig = vscode.workspace.getConfiguration('workbench');
+
+const a = vscode.workspace.getConfiguration('eslint');
+console.log(a.get('validate')); // 通过这种方式就可以拿到我的配置 …… 
 
 	vscode.commands.registerTextEditorCommand('serialer.parse', (textEditor => {
 		let text = textEditor.document.getText();

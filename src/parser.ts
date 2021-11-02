@@ -2,12 +2,6 @@ import { SerialItem, createSerialGenerator } from "./serialUtils";
 
 const fs = require("fs");
 
-// const serialInfos = [
-//   ['一二三四五六七八九十', '$、'],
-//   ['一二三四五六七八九十', '（$）'],
-//   ['123456789', '$.'],
-//   ['123456789', '（$）']
-// ];
 
 const serialInfos: SerialItem[] = [
   {
@@ -28,12 +22,11 @@ const serialInfos: SerialItem[] = [
   }
 ];
 
-
 const serialGenerators = serialInfos.map(createSerialGenerator);
 
 const directoryStartText =  '<!-- # directory-start -->';
 const directoryEndText =  '<!-- # directory-end -->';
-const noTocTips = '<!-- no toc ; preventing the directory content from being formatted by markdown-all-in-one -->'; // 阻止 markdown-all-in-one 自动添加标题
+const noTocTips = '<!-- no toc ; preventing directory content from being formatted by markdown-all-in-one -->'; // 阻止 markdown-all-in-one 自动添加标题
 const baseLevel = 2; // 标题 # 数量少于这个数字，会被忽略；比如 2 的时候，‘#’ 会忽略
 const serialClass = 'serial-header';
 const shouldAddDirectory = true; // 是否要目录
