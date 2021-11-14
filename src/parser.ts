@@ -2,13 +2,6 @@ import { SerialItem, createSerialGenerator } from "./serialUtils";
 
 const fs = require("fs");
 
-// const serialInfos = [
-//   ['一二三四五六七八九十', '$、'],
-//   ['一二三四五六七八九十', '（$）'],
-//   ['123456789', '$.'],
-//   ['123456789', '（$）']
-// ];
-
 const serialInfos: SerialItem[] = [
   {
     firstNumText: '一', 
