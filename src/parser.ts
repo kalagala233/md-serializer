@@ -44,43 +44,6 @@ let directoryText = directoryStartText;
 
 const idGenerator = createIdGenerator();
 
-const t = `
-<!-- # directory-start -->
-- <a href="#serial1631441691483">一、ok</a>
-- <a href="#serial1631441691484">二、标题</a>
-  - <a href="#serial1631441691485">(一)小标题</a>
-- <a href="#serial1631441691486">三、标题</a>
-  - <a href="#serial1631441691487">(一)小标题 </a>
-- <a href="#serial1631441691488">四、标题</a>
-  - <a href="#serial1631441691489">(一)小标题</a>
-- <a href="#serial1631441691490">五、标题</a>
-- <a href="#serial1631441691491">六、标题</a>
-- <a href="#serial1631441691492">七、标题</a>
-  - <a href="#serial1631441691493">(一)小标题</a>
-  - <a href="#serial1631441691494">(二)小标题</a>
-  - <a href="#serial1631441691495">(三)小标题</a>
-<!-- # directory-end -->
-## <span class="serial-header" id="serial1631441691483">一、</span>ok
-## <span class="serial-header" id="serial1631441691484">二、</span>标题
-
-### <span class="serial-header" id="serial1631441691485">(一)</span>小标题
-
-## <span class="serial-header" id="serial1631441691486">三、</span>标题
-
-### <span class="serial-header" id="serial1631441691487">(一)</span>小标题 
-## <span class="serial-header" id="serial1631441691488">四、</span>标题
-
-### <span class="serial-header" id="serial1631441691489">(一)</span>小标题
-
-## <span class="serial-header" id="serial1631441691490">五、</span>标题
-## <span class="serial-header" id="serial1631441691491">六、</span>标题
-## <span class="serial-header" id="serial1631441691492">七、</span>标题
-
-### <span class="serial-header" id="serial1631441691493">(一)</span>小标题
-### <span class="serial-header" id="serial1631441691494">(二)</span>小标题
-### <span class="serial-header" id="serial1631441691495">(三)</span>小标题
-`;
-
 export function parser(t: string)  {
   reset();
 
@@ -145,6 +108,7 @@ export function parser(t: string)  {
       );
     }
 
+    // 生成目录信息
     if(shouldAddDirectory) {
       directoryText += (
         '\n' + 
@@ -164,18 +128,10 @@ export function parser(t: string)  {
     : t;
 }
 
-console.time('a');
-console.log(parser(t)); 
-console.timeEnd('a');
-
 export function clearSerial(text: string) {
   return clearDirectoryText(text)
     .replace(serialSpanReg, '');
 }
-
-console.time('b');
-console.log(clearSerial(t)); 
-console.timeEnd('b');
 
 // # fn ↓↓↓ 
 
