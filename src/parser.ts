@@ -2,7 +2,6 @@ import { SerialItem, createSerialGenerator } from "./serialUtils";
 
 const fs = require("fs");
 
-
 const serialInfos: SerialItem[] = [
   {
     firstNumText: '一', 
@@ -109,6 +108,7 @@ export function parser(t: string)  {
       );
     }
 
+    // 生成目录信息
     if(shouldAddDirectory) {
       directoryText += (
         '\n' + 
@@ -127,7 +127,6 @@ export function parser(t: string)  {
     ? (directoryText + '\n' + directoryEndText + '\n' + t)
     : t;
 }
-
 
 export function clearSerial(text: string) {
   return clearDirectoryText(text)

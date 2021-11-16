@@ -17,7 +17,7 @@ export function createSerialGenerator(serialInfo: SerialItem): (num: number) => 
   let matchFn: undefined | ((arg: number) => string ) = undefined;
 
   for(let fn of convertFns) {
-    if(fn(1) === (serialInfo.firstNumText + '')) {
+    if(fn(1) === (serialInfo.firstNumText + '').trim()) {
       matchFn = fn;
       break;
     };
@@ -48,6 +48,8 @@ function createCacheForFn(fn: Function) {
   };
 }
 
+
+// 生成中文序号
 function toChineseNumber(num: number) {
   if (!Number.isInteger(num) && num < 0) {
     throw Error('请输入自然数');
