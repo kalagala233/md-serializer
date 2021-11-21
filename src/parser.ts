@@ -33,7 +33,7 @@ const shouldDirectoryLink = true; // 目录是否要跳转
 const idType: 'unique' | 'titleRelative' = 'titleRelative'; // titleRelative 标题相关的 : unique 递增
 
 // regExp
-const headReg = new RegExp(`^(#{1,})\\s*(.*)$`, 'mg');
+const headReg = new RegExp(`^(#{1,})\\s+(.*)$`, 'mg');
 const serializedHeaderReg = new RegExp('(<span [^>]+' + serialClass + '[^>]+>)[^<]+(<\\/span>)(.*)$', 'g'); 
 const serialSpanReg = new RegExp('(<span [^>]+' + serialClass + '[^>]+>)[^<]+(<\\/span>)', 'g');
 const idReg = /id="([^"]+?)"/;
