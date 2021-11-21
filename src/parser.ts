@@ -21,11 +21,11 @@ const serialInfos: SerialItem[] = [
   }
 ];
 
-
 const serialGenerators = serialInfos.map(createSerialGenerator);
 
 const directoryStartText =  '<!-- # directory-start -->';
 const directoryEndText =  '<!-- # directory-end -->';
+const noTocTips = '<!-- no toc ; preventing directory content from being formatted by markdown-all-in-one -->'; // 阻止 markdown-all-in-one 自动添加标题
 const baseLevel = 2; // 标题 # 数量少于这个数字，会被忽略；比如 2 的时候，‘#’ 会忽略
 const serialClass = 'serial-header';
 const shouldAddDirectory = true; // 是否要目录
@@ -138,7 +138,7 @@ export function clearSerial(text: string) {
 function reset() {
   serialIndexList = [];
   offset = -1;
-  directoryText = directoryStartText;
+  directoryText = directoryStartText + '\n' + noTocTips;
 }
 
 function createSerialTitle(id: string, serial: string, title: string){
@@ -155,6 +155,9 @@ function createSerialTitle(id: string, serial: string, title: string){
 function clearDirectoryText(text: string) {
   const _startIndex = text.indexOf(directoryStartText);
   const _endIndex = text.indexOf(directoryEndText);
+  console.log(_startIndex);
+
+  console.log(_endIndex); 
 
   if(_startIndex > -1 && _endIndex > -1) {
     text = text.substring(0, _startIndex) + text.substring(_endIndex + directoryEndText.length + 1);
