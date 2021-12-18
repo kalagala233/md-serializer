@@ -2,11 +2,6 @@ import * as vscode from 'vscode';
 import { parser, clearSerial } from './parser';
 
 export function activate(context: vscode.ExtensionContext) {
-	// const workbenchConfig = vscode.workspace.getConfiguration('workbench');
-	// const a = vscode.workspace.getConfiguration('eslint');
-	// console.log(a.get('validate')); // 通过这种方式就可以拿到我的配置 …… 
-
-
 	vscode.commands.registerTextEditorCommand('serialer.parse', (textEditor => {
 		let text = textEditor.document.getText();
 

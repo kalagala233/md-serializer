@@ -1,4 +1,9 @@
 import { SerialItem, createSerialGenerator } from "./serialUtils";
+import * as vscode from 'vscode';
+
+const workbenchConfig = vscode.workspace.getConfiguration('workbench');
+const config = vscode.workspace.getConfiguration('mdSerializer'); // 获取 setting 里面的配置
+const options: {[key: string]: any} | undefined = config.get('options') ;
 
 const fs = require("fs");
 
@@ -26,16 +31,40 @@ const serialGenerators = serialInfos.map(createSerialGenerator);
 const directoryStartText =  '<!-- # directory-start -->';
 const directoryEndText =  '<!-- # directory-end -->';
 const noTocTips = '<!-- no toc ; preventing directory content from being formatted by markdown-all-in-one -->'; // 阻止 markdown-all-in-one 自动添加标题
-const baseLevel = 2; // 标题 # 数量少于这个数字，会被忽略；比如 2 的时候，‘#’ 会忽略
+
+ // 标题 # 数量少于这个数字，会被忽略；比如设置为 2 的时候，一个 '#'的 标题会忽略
+let  baseLevel = 2;
+
 const serialClass = 'serial-header';
-const shouldAddDirectory = true; // 是否要目录
-const shouldDirectoryLink = true; // 目录是否要跳转
+let shouldAddDirectory = true; // 是否要目录
+let shouldDirectoryLink = true; // 目录是否要跳转
 const idType: 'unique' | 'titleRelative' = 'titleRelative'; // titleRelative 标题相关的 : unique 递增
+
+// 判断全局参数
+if(typeof options === 'object') {
+  // 从哪一级开始处理
+  if(Object.hasOwnProperty.call(options, 'startLevel')) {
+    baseLevel = Number(options.startLevel);
+  }
+
+  // 是否需要添加目录
+  if(Object.hasOwnProperty.call(options, 'addDirectory')) {
+    shouldAddDirectory = !!(options.addDirectory);
+  }
+
+  // 目录是否需要添加 link
+  if(Object.hasOwnProperty.call(options, 'directoryLink')) {
+    shouldDirectoryLink = !!(options.directoryLink);
+  }
+}
 
 // regExp
 const headReg = new RegExp(`^(#{1,})\\s+(.*)$`, 'mg');
-const serializedHeaderReg = new RegExp('(<span [^>]+' + serialClass + '[^>]+>)[^<]+(<\\/span>)(.*)$', 'g'); 
+
+const serializedHeaderReg = new RegExp('(<span[^>]+' + serialClass + '[^>]+>)[^<]+(<\\/span>)(.*)$', 'g'); 
+
 const serialSpanReg = new RegExp('(<span [^>]+' + serialClass + '[^>]+>)[^<]+(<\\/span>)', 'g');
+
 const idReg = /id="([^"]+?)"/;
 
 let serialIndexList: number[] = [];
