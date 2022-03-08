@@ -157,10 +157,14 @@ function reset() {
     : 2;
 
   // 是否需要添加目录
-  shouldAddDirectory = !!(options.addDirectory);
+  shouldAddDirectory = Object.hasOwnProperty.call(options, 'addDirectory')
+    ? !!(options.addDirectory)
+    : true;
 
   // 目录是否需要添加 link
-  shouldDirectoryLink = !!(options.directoryLink);
+  shouldDirectoryLink = Object.hasOwnProperty.call(options, 'directoryLink')
+    ? !!(options.directoryLink)
+    : true;
 }
 
 function createSerialTitle(id: string, serial: string, title: string){
