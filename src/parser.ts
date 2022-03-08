@@ -3,7 +3,6 @@ import * as vscode from 'vscode';
 
 const workbenchConfig = vscode.workspace.getConfiguration('workbench');
 const config = vscode.workspace.getConfiguration('mdSerializer'); // 获取 setting 里面的配置
-const options: {[key: string]: any} | undefined = config.get('options') ;
 
 const fs = require("fs");
 
@@ -39,24 +38,6 @@ const serialClass = 'serial-header';
 let shouldAddDirectory = true; // 是否要目录
 let shouldDirectoryLink = true; // 目录是否要跳转
 const idType: 'unique' | 'titleRelative' = 'titleRelative'; // titleRelative 标题相关的 : unique 递增
-
-// 判断全局参数
-if(typeof options === 'object') {
-  // 从哪一级开始处理
-  if(Object.hasOwnProperty.call(options, 'startLevel')) {
-    baseLevel = Number(options.startLevel);
-  }
-
-  // 是否需要添加目录
-  if(Object.hasOwnProperty.call(options, 'addDirectory')) {
-    shouldAddDirectory = !!(options.addDirectory);
-  }
-
-  // 目录是否需要添加 link
-  if(Object.hasOwnProperty.call(options, 'directoryLink')) {
-    shouldDirectoryLink = !!(options.directoryLink);
-  }
-}
 
 // regExp
 const headReg = new RegExp(`^(#{1,})\\s+(.*)$`, 'mg');
@@ -168,6 +149,18 @@ function reset() {
   serialIndexList = [];
   offset = -1;
   directoryText = directoryStartText + '\n' + noTocTips;
+  const options: {[key: string]: any} | undefined = config.get('options') || {} ;
+
+  // 从哪一级开始处理
+  baseLevel = Object.hasOwnProperty.call(options, 'startLevel')
+    ? Number(options.startLevel)
+    : 2;
+
+  // 是否需要添加目录
+  shouldAddDirectory = !!(options.addDirectory);
+
+  // 目录是否需要添加 link
+  shouldDirectoryLink = !!(options.directoryLink);
 }
 
 function createSerialTitle(id: string, serial: string, title: string){
