@@ -7,9 +7,9 @@ export interface SerialItem {
 const baseNumFn = (num: number) => num.toString();
 
 // 1 => '一' 中文
-const convertToChinese = createCacheForFn(toChineseNumber);
+const convertToChinese = cacheFnGenerator(toChineseNumber);
 
-const convertFns = [baseNumFn, convertToChinese];
+const convertFns = [baseNumFn, convertToChinese, toCircleNumber];
 
 
 
@@ -35,7 +35,7 @@ export function createSerialGenerator(serialInfo: SerialItem): (num: number) => 
 
 // base fn 
 
-function createCacheForFn(fn: Function) {
+function cacheFnGenerator(fn: Function) {
   const _map = new Map();
 
   return (arg: number) => {
@@ -77,3 +77,10 @@ function toChineseNumber(num: number) {
   }
   return result;
 }
+
+const circleList = ['⓪', '①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧', '⑨', '⑩', '⑪', '⑫', '⑬', '⑭', '⑮', '⑯', '⑰', '⑱', '⑲', '⑳', '㉑', '㉒', '㉓', '㉔', '㉕', '㉖', '㉗', '㉘', '㉙', '㉚', '㉛', '㉜', '㉝', '㉞', '㉟', '㊱', '㊲', '㊳', '㊴', '㊵', '㊶', '㊷', '㊸', '㊹', '㊺', '㊻', '㊼', '㊽', '㊾', '㊿'];
+
+function toCircleNumber(num: number) {
+  return circleList[num];
+}
+

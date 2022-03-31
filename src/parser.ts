@@ -1,10 +1,8 @@
 import { SerialItem, createSerialGenerator } from "./serialUtils";
 import * as vscode from 'vscode';
 
-const workbenchConfig = vscode.workspace.getConfiguration('workbench');
+// const workbenchConfig = vscode.workspace.getConfiguration('workbench');
 const config = vscode.workspace.getConfiguration('mdSerializer'); // 获取 setting 里面的配置
-
-const fs = require("fs");
 
 const serialInfos: SerialItem[] = [
   {
@@ -22,6 +20,10 @@ const serialInfos: SerialItem[] = [
   {
     firstNumText: '1', 
     format: '（$）'
+  },
+  {
+    firstNumText: '①', 
+    format: '$'
   }
 ];
 
@@ -34,13 +36,13 @@ const noTocTips = '<!-- no toc ; preventing directory content from being formatt
  // 标题 # 数量少于这个数字，会被忽略；比如设置为 2 的时候，一个 '#'的 标题会忽略
 let  baseLevel = 2;
 
-const serialClass = 'serial-header';
+const serialClass = 's-h'; // serial-header
 let shouldAddDirectory = true; // 是否要目录
 let shouldDirectoryLink = true; // 目录是否要跳转
 const idType: 'unique' | 'titleRelative' = 'titleRelative'; // titleRelative 标题相关的 : unique 递增
 
 // regExp
-const headReg = new RegExp(`^(#{1,})\\s+(.*)$`, 'mg');
+const headReg = new RegExp(`^(#{1,6})\\s+(.*)$`, 'mg');
 
 const serializedHeaderReg = new RegExp('(<span[^>]+' + serialClass + '[^>]+>)[^<]+(<\\/span>)(.*)$', 'g'); 
 
@@ -181,9 +183,6 @@ function createSerialTitle(id: string, serial: string, title: string){
 function clearDirectoryText(text: string) {
   const _startIndex = text.indexOf(directoryStartText);
   const _endIndex = text.indexOf(directoryEndText);
-  console.log(_startIndex);
-
-  console.log(_endIndex); 
 
   if(_startIndex > -1 && _endIndex > -1) {
     text = text.substring(0, _startIndex) + text.substring(_endIndex + directoryEndText.length + 1);
