@@ -1,5 +1,9 @@
 import { SerialItem, createSerialGenerator } from "./serialUtils";
 import * as vscode from 'vscode';
+// eslint-disable-next-line @typescript-eslint/naming-convention
+var GithubSlugger = require('github-slugger');
+var slugger = new GithubSlugger();
+
 
 // const workbenchConfig = vscode.workspace.getConfiguration('workbench');
 const config = vscode.workspace.getConfiguration('mdSerializer'); // 获取 setting 里面的配置
@@ -90,7 +94,7 @@ export function parser(t: string)  {
 
       _headerText =  m.replace(serializedHeaderReg, (_: string, subM1: string, subM2: string, subM3: string) => {
 
-        _titleText = subM3;
+        _titleText = subM3.trim();
         
         if(matches && matches[1]) {
           _id = matches[1];
@@ -107,7 +111,7 @@ export function parser(t: string)  {
       });
 
     } else {
-      _titleText = m2;
+      _titleText = m2.trim();
 
       _id = idType === 'titleRelative' 
         ? titleNormalizer(_serialText + _titleText)
@@ -200,7 +204,8 @@ function createLinkText(id: string, serial: string,  title: string){
 // 把标题的 特殊符号去掉（比如 中英括号、顿号），
 // 比如 gitlab wiki 就是要把这些符号去掉的
 function titleNormalizer(title: string) {
-  return title.replace(/[()（）、.\s]/g, '');
+  title = (title || '').trim().replace(/\s+/g, ' ');
+  return slugger.slug(title);
 }
 
 function createIdGenerator() {
