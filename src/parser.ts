@@ -41,6 +41,7 @@ const noTocTips = '<!-- no toc ; preventing directory content from being formatt
 let  baseLevel = 2;
 
 const serialClass = 's-h'; // serial-header
+const oldSerialClass = 'serial-header'; // serial-header
 let shouldAddDirectory = true; // 是否要目录
 let shouldDirectoryLink = true; // 目录是否要跳转
 const idType: 'unique' | 'titleRelative' = 'titleRelative'; // titleRelative 标题相关的 : unique 递增
@@ -51,6 +52,7 @@ const headReg = new RegExp(`^(#{1,6})\\s+(.*)$`, 'mg');
 const serializedHeaderReg = new RegExp('(<span[^>]+' + serialClass + '[^>]+>)[^<]+(<\\/span>)(.*)$', 'g'); 
 
 const serialSpanReg = new RegExp('(<span [^>]+' + serialClass + '[^>]+>)[^<]+(<\\/span>)', 'g');
+const oldSerialSpanReg = new RegExp('(<span [^>]+' + oldSerialClass + '[^>]+>)[^<]+(<\\/span>)', 'g');
 
 const idReg = /id="([^"]+?)"/;
 
@@ -146,7 +148,8 @@ export function parser(t: string)  {
 
 export function clearSerial(text: string) {
   return clearDirectoryText(text)
-    .replace(serialSpanReg, '');
+    .replace(serialSpanReg, '')
+    .replace(oldSerialSpanReg, ''); // 去掉旧版
 }
 
 // # fn ↓↓↓ 
